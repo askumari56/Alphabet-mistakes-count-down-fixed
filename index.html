@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="hi">
+
+  <!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quiz (Syam Prasad) — Samas (Custom selectors + Timer + Mistake limit)</title>
+<title>Quiz — Polished (Syam Prasad)</title>
 <link href="https://fonts.googleapis.com/css?family=Orbitron:700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -24,7 +25,7 @@ body{
   padding:28px 12px;
 }
 .container{
-  width:720px;
+  width:820px;
   max-width:96%;
   border-radius:18px;
   overflow:hidden;
@@ -34,10 +35,10 @@ body{
 }
 .header{
   background: linear-gradient(90deg,#9b36ff 20%, #53f0d6 100%);
-  padding:22px 18px;
+  padding:20px 18px;
   text-align:center;
   color:#fff;
-  font-size:28px;
+  font-size:26px;
   font-weight:700;
   letter-spacing:1px;
 }
@@ -46,7 +47,7 @@ body{
   gap:12px;
   justify-content:center;
   align-items:center;
-  padding:14px;
+  padding:12px;
   background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.06));
   flex-wrap:wrap;
 }
@@ -55,7 +56,7 @@ body{
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06);
   color: #dff;
-  padding:8px 10px;
+  padding:7px 10px;
   border-radius:8px;
   font-weight:700;
 }
@@ -66,34 +67,16 @@ body{
   padding:9px 14px;
 }
 .num-input{ width:84px; padding:8px; color:#000; background:#fff; border-radius:8px; font-weight:700; }
-
-.panel{
-  padding:18px;
-  position:relative;
-  background: linear-gradient(180deg, rgba(5,8,30,0.6), var(--panel));
-}
+.panel{ padding:16px; position:relative; background: linear-gradient(180deg, rgba(5,8,30,0.6), var(--panel)); }
 .top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
-.qbox{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:14px; padding:18px; margin-top:12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  border-left:6px solid var(--accent, rgba(45,235,176,0.12));
-}
+.qbox{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:14px; padding:18px; margin-top:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); border-left:6px solid var(--accent, rgba(45,235,176,0.12)); }
 .question { font-size:20px; color:#e6fff7; margin-bottom:14px; }
 
-.options { display:flex; flex-direction:column; gap:14px; }
-.answer-btn{
-  display:flex; align-items:center; justify-content:center;
-  padding:18px 22px; border-radius:40px;
-  background: linear-gradient(90deg,#2f00c8,#4b2bff);
-  color:#fff; font-size:18px; font-weight:800;
-  border: 2px solid rgba(255,255,255,0.06);
-  cursor:pointer; transition: transform 140ms, box-shadow 160ms, background 160ms;
-  box-shadow: 0 6px 24px rgba(30,20,60,0.35); user-select:none;
-}
-.answer-btn:hover{ transform: translateY(-4px); }
+.options { display:flex; flex-direction:column; gap:12px; }
+.answer-btn{ display:flex; align-items:center; justify-content:center; padding:14px 18px; border-radius:12px; background: linear-gradient(90deg,#2f00c8,#4b2bff); color:#fff; font-size:18px; font-weight:800; border: 2px solid rgba(255,255,255,0.06); cursor:pointer; transition: transform 140ms, box-shadow 160ms, background 160ms; box-shadow: 0 6px 24px rgba(30,20,60,0.35); user-select:none; text-align:center; }
+.answer-btn:hover{ transform: translateY(-3px); }
 .answer-btn:active{ transform: translateY(-1px); }
-.answer-btn[disabled]{ opacity:0.95; cursor:default; transform:none; }
+.answer-btn[disabled]{ opacity:0.9; cursor:default; transform:none; }
 
 @keyframes flashCorrect { 0%{transform:scale(1)} 40%{transform:scale(1.02)} 100%{transform:none} }
 @keyframes flashWrong { 0%{transform:scale(1)} 40%{transform:scale(1.02)} 100%{transform:none} }
@@ -104,92 +87,95 @@ body{
 .progress{ height:100%; width:0%; background: linear-gradient(90deg,#3a1bff,#5ec0ff); transition:width 200ms; }
 .counter{ text-align:center; color: #9fffe7; font-weight:700; padding:6px; margin-top:6px; }
 
+/* Timer styles */
+.time-left { font-weight: 700; margin-top: 8px; }
+.time-left-label { color: #FFB400; /* deep yellow */ }
+#timer { color: #B22222 !important; font-weight:900; font-size:20px; } /* deep red */
+#activityTimer { color: #ffffff !important; font-weight:800; font-size:13px; margin-top:6px; letter-spacing:1px; } /* deep white */
+
 .footer{ padding:20px; height:56px; }
 
-@media (max-width:560px){
-  .answer-btn{ font-size:16px; padding:14px; border-radius:28px; }
-  .header{ font-size:20px; padding:16px; }
-  .num-input{ width:64px; }
+@media (max-width:760px){
+  .top-row{ flex-direction:column; }
+  .answer-btn{ font-size:16px; padding:12px; }
+  .container{ padding-bottom:20px; }
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">QUIZ (SYAM PRASAD)</div>
+<div class="container" role="application" aria-label="Quiz app">
+  <div class="header">QUIZ (శ్యాం ప్రసాద్)</div>
 
-  <div class="controls">
-    <div class="control-item">
+  <div class="controls" role="region" aria-label="Quiz controls">
+    <div class="control-item" title="Number of choices per question">
       <label style="font-weight:700">Choices:</label>
-      <select id="choiceSelect" class="select"></select>
+      <select id="choiceSelect" class="select" aria-label="Choices"></select>
       <input id="choiceCustom" class="num-input" type="number" placeholder="Custom" style="display:none;" min="1" />
     </div>
 
-    <div class="control-item">
+    <div class="control-item" title="Number of questions">
       <label style="font-weight:700">Questions:</label>
-      <select id="countSelect" class="select"></select>
+      <select id="countSelect" class="select" aria-label="Questions count"></select>
       <input id="countCustom" class="num-input" type="number" placeholder="Custom" style="display:none;" min="1" />
     </div>
 
-    <div class="control-item">
+    <div class="control-item" title="Countdown seconds">
       <label style="font-weight:700">Time (s):</label>
-      <select id="timeSelect" class="select"></select>
+      <select id="timeSelect" class="select" aria-label="Time seconds"></select>
       <input id="timeCustom" class="num-input" type="number" placeholder="Seconds" style="display:none;" min="0" />
     </div>
 
-    <div class="control-item">
-      <label style="font-weight:700">
-        <input id="timerEnable" type="checkbox" style="transform:scale(1.2); margin-right:8px;" />
-        Enable Timer
-      </label>
+    <div class="control-item" title="Enable or disable countdown">
+      <label style="font-weight:700"><input id="timerEnable" type="checkbox" style="transform:scale(1.1); margin-right:8px;" /> Enable Timer</label>
     </div>
 
-    <!-- Mistake limit control -->
-    <div class="control-item">
-      <label style="font-weight:700">
-        <input id="mistakeEnable" type="checkbox" style="transform:scale(1.2); margin-right:8px;" />
-        Limit Mistakes
-      </label>
+    <div class="control-item" title="Enable mistake limit">
+      <label style="font-weight:700"><input id="mistakeEnable" type="checkbox" style="transform:scale(1.1); margin-right:8px;" /> Limit Mistakes</label>
       <select id="mistakeSelect" class="select" style="margin-left:6px;"></select>
       <input id="mistakeCustom" class="num-input" type="number" placeholder="Custom" style="display:none; margin-left:6px;" min="0" />
     </div>
 
-    <!-- Theme dropdown -->
     <div class="control-item">
       <label style="font-weight:700">Theme:</label>
-      <select id="themeSelect" class="select"></select>
+      <select id="themeSelect" class="select" aria-label="Theme"></select>
     </div>
 
     <div class="control-item">
-      <button id="startBtn" class="small-btn">Start / Restart</button>
+      <button id="startBtn" class="small-btn" aria-label="Start quiz">Start / Restart</button>
     </div>
   </div>
 
   <div class="panel">
     <div class="top-row">
-      <div style="width:72%">
-        <div class="qbox">
-          <div id="quiz"><!-- injected --></div>
+      <div style="width:68%">
+        <div class="qbox" id="qbox" aria-live="polite">
+          <div id="quiz">Press Start to begin</div>
         </div>
       </div>
-      <div style="width:26%; padding-left:12px; text-align:right;">
-        <div style="color:#9fffe7; font-weight:700; margin-top:8px;">Time Left: <span id="timer">--:--</span></div>
+
+      <div style="width:30%; padding-left:12px; text-align:right;">
+        <div class="time-left"><span class="time-left-label">Time Left:</span> <span id="timer">--:--</span></div>
+        <div id="activityTimer" aria-label="Elapsed time">00:00</div>
         <div style="height:8px"></div>
-        <div class="progress-bar"><div id="progress" class="progress"></div></div>
+        <div class="progress-bar"><div id="progress" class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div></div>
         <div class="counter" id="counter">Question 0 of 0</div>
         <div class="counter" id="mistakesLeft" style="margin-top:10px; color:#ffb3b3; display:none;">Mistakes left: --</div>
       </div>
     </div>
-
     <div class="footer"></div>
   </div>
 </div>
 
 <script>
-/* ------------------------
-   Questions dataset (unchanged)
-   ------------------------ */
+/* =========================
+   Polished Quiz JS
+   - redundant activity timer starts removed
+   - clearer comments and small accessibility tweaks
+   ========================= */
+
+/* --- dataset (same as original, truncated here for brevity) --- */
 const questions = [
- 
+  
  { question: "न", options: ["భ", "ద", "త", "ప", "న", "థ", "స", "ధ"], correct: 4, answer: "న" },
     { question: "ब", options: ["ల", "బ", "ప", "భ", "ఝ", "థ", "ధ", "మ"], correct: 1, answer: "బ" },
     { question: "ख", options: ["ఘ", "డ", "ఖ", "ధ", "ఝ", "బ", "శ", "గ"], correct: 2, answer: "ఖ" },
@@ -279,12 +265,9 @@ const questions = [
     { question: "प", options: ["ణ", "ర", "ష", "భ", "ప", "ళ", "బ", "ఫ"], correct: 4, answer: "ప" },
     { question: "ఒ", options: ["आ", "उ", "ऊ", "ए", "ओ", "औ", "इ"], correct: 4, answer: "ओ" }
  
- 
-];
+ ];
 
-/* ------------------------
-   UI refs & defaults
-   ------------------------ */
+/* --- UI refs --- */
 const choiceSelect = document.getElementById('choiceSelect');
 const countSelect = document.getElementById('countSelect');
 const timeSelect = document.getElementById('timeSelect');
@@ -297,6 +280,7 @@ const quizDiv = document.getElementById('quiz');
 const progressBar = document.getElementById('progress');
 const counterEl = document.getElementById('counter');
 const timerEl = document.getElementById('timer');
+const activityTimerEl = document.getElementById('activityTimer');
 
 const mistakeEnable = document.getElementById('mistakeEnable');
 const mistakeSelect = document.getElementById('mistakeSelect');
@@ -304,6 +288,8 @@ const mistakeCustom = document.getElementById('mistakeCustom');
 const mistakesLeftEl = document.getElementById('mistakesLeft');
 
 const SETTINGS_KEY = 'samas_custom_settings_with_timer_v2';
+
+/* --- defaults --- */
 const defaults = {
   choices: 4,
   count: Math.min(24, questions.length),
@@ -313,68 +299,56 @@ const defaults = {
   mistakesAllowed: 0
 };
 
-/* fill select options */
-[3,4,5,6,'Custom'].forEach(v => {
-  const o = document.createElement('option'); o.value = v; o.textContent = v; choiceSelect.appendChild(o);
-});
-[10,24,50,75,'All','Custom'].forEach(v => {
-  const o = document.createElement('option'); o.value = v; o.textContent = v; countSelect.appendChild(o);
-});
-[0,60,120,180,300,600,'Custom'].forEach(v => {
-  const o = document.createElement('option'); o.value = v; o.textContent = v; timeSelect.appendChild(o);
-});
-[0,1,2,3,5,10,'Custom'].forEach(v => {
-  const o = document.createElement('option'); o.value = v; o.textContent = v; mistakeSelect.appendChild(o);
-});
+/* --- populate selects --- */
+[3,4,5,6,'Custom'].forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; choiceSelect.appendChild(o); });
+[10,24,50,75,'All','Custom'].forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; countSelect.appendChild(o); });
+[0,60,120,180,300,600,'Custom'].forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; timeSelect.appendChild(o); });
+[0,1,2,3,5,10,'Custom'].forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; mistakeSelect.appendChild(o); });
 
-/* load saved settings */
+/* --- load settings or use defaults --- */
 let saved = localStorage.getItem(SETTINGS_KEY);
 let settings = saved ? JSON.parse(saved) : defaults;
 
-/* apply settings to UI */
+/* --- apply saved settings to UI --- */
 function applySettingsToUI(){
-  if ([3,4,5,6].includes(settings.choices)) {
-    choiceSelect.value = settings.choices; choiceCustom.style.display = 'none';
-  } else { choiceSelect.value = 'Custom'; choiceCustom.style.display = ''; choiceCustom.value = settings.choices; }
-  if ([10,24,50,75].includes(settings.count)) {
-    countSelect.value = settings.count; countCustom.style.display = 'none';
-  } else if (settings.count === questions.length) {
-    countSelect.value = 'All'; countCustom.style.display = 'none';
-  } else { countSelect.value = 'Custom'; countCustom.style.display = ''; countCustom.value = settings.count; }
-  if ([0,60,120,180,300,600].includes(settings.time)) {
-    timeSelect.value = settings.time; timeCustom.style.display = 'none';
-  } else { timeSelect.value = 'Custom'; timeCustom.style.display = ''; timeCustom.value = settings.time; }
+  if ([3,4,5,6].includes(settings.choices)) { choiceSelect.value = settings.choices; choiceCustom.style.display='none'; }
+  else { choiceSelect.value='Custom'; choiceCustom.style.display=''; choiceCustom.value = settings.choices; }
+
+  if ([10,24,50,75].includes(settings.count)) { countSelect.value = settings.count; countCustom.style.display='none'; }
+  else if (settings.count === questions.length) { countSelect.value = 'All'; countCustom.style.display='none'; }
+  else { countSelect.value='Custom'; countCustom.style.display=''; countCustom.value = settings.count; }
+
+  if ([0,60,120,180,300,600].includes(settings.time)) { timeSelect.value = settings.time; timeCustom.style.display='none'; }
+  else { timeSelect.value='Custom'; timeCustom.style.display=''; timeCustom.value = settings.time; }
+
   timerEnable.checked = !!settings.timerEnabled;
 
   mistakeEnable.checked = !!settings.mistakesEnabled;
-  if ([0,1,2,3,5,10].includes(settings.mistakesAllowed)) {
-    mistakeSelect.value = settings.mistakesAllowed; mistakeCustom.style.display = 'none';
-  } else { mistakeSelect.value = 'Custom'; mistakeCustom.style.display = ''; mistakeCustom.value = settings.mistakesAllowed; }
+  if ([0,1,2,3,5,10].includes(settings.mistakesAllowed)) { mistakeSelect.value = settings.mistakesAllowed; mistakeCustom.style.display='none'; }
+  else { mistakeSelect.value='Custom'; mistakeCustom.style.display=''; mistakeCustom.value = settings.mistakesAllowed; }
 }
 applySettingsToUI();
 
-/* events for selectors */
+/* --- events --- */
 let selectsDirty = false;
-choiceSelect.addEventListener('change', () => { selectsDirty = true; if (choiceSelect.value === 'Custom') choiceCustom.style.display=''; else choiceCustom.style.display='none'; });
-countSelect.addEventListener('change', () => { selectsDirty = true; if (countSelect.value === 'Custom') countCustom.style.display=''; else countCustom.style.display='none'; });
-timeSelect.addEventListener('change', () => { selectsDirty = true; if (timeSelect.value === 'Custom') timeCustom.style.display=''; else timeCustom.style.display='none'; });
-timerEnable.addEventListener('change', () => { selectsDirty = true; });
+choiceSelect.addEventListener('change', ()=>{ selectsDirty = true; choiceSelect.value==='Custom'?choiceCustom.style.display='':choiceCustom.style.display='none'; });
+countSelect.addEventListener('change', ()=>{ selectsDirty = true; countSelect.value==='Custom'?countCustom.style.display='':countCustom.style.display='none'; });
+timeSelect.addEventListener('change', ()=>{ selectsDirty = true; timeSelect.value==='Custom'?timeCustom.style.display='':timeCustom.style.display='none'; });
+timerEnable.addEventListener('change', ()=>{ selectsDirty = true; });
+mistakeSelect.addEventListener('change', ()=>{ selectsDirty = true; mistakeSelect.value==='Custom'?mistakeCustom.style.display='':mistakeCustom.style.display='none'; });
+mistakeEnable.addEventListener('change', ()=>{ selectsDirty = true; });
 
-mistakeSelect.addEventListener('change', () => { selectsDirty = true; if (mistakeSelect.value === 'Custom') mistakeCustom.style.display=''; else mistakeCustom.style.display='none'; });
-mistakeEnable.addEventListener('change', () => { selectsDirty = true; });
-
-
-/* helpers */
-function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+/* --- helpers --- */
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function sampleOptions(baseOptions, correct, n){ const pool=baseOptions.filter(x=>x!==correct); shuffle(pool); const chosen=pool.slice(0,n-1); chosen.push(correct); return shuffle(chosen); }
+function formatTime(s){ const m=Math.floor(s/60); const r=s%60; return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`; }
 
-/* quiz state */
+/* --- quiz state --- */
 let currentSet=[], idx=0, userAnswers=[], timerInterval=null;
-let quizEnded = false; // prevent race conditions
+let quizEnded=false, mistakesCount=0;
+let activityInterval=null, activityStart=null;
 
-let mistakesCount = 0; // track mistakes
-
-/* read UI values */
+/* --- read UI values --- */
 function readUIValues(){
   let choicesVal = (choiceSelect.value==='Custom') ? parseInt(choiceCustom.value,10)||defaults.choices : parseInt(choiceSelect.value,10);
   let countVal;
@@ -392,31 +366,38 @@ function readUIValues(){
   };
 }
 
-/* timer */
+/* --- activity timer: start/stop (reset on start) --- */
+function startActivityTimer(){
+  if (activityInterval) { clearInterval(activityInterval); activityInterval=null; }
+  activityStart = Date.now();
+  activityTimerEl.textContent = formatTime(0);
+  activityInterval = setInterval(()=>{
+    const secs = Math.floor((Date.now() - activityStart)/1000);
+    activityTimerEl.textContent = formatTime(secs);
+  },1000);
+}
+function stopActivityTimer(){
+  // Stop the ticking interval but keep activityStart so final elapsed time can be shown.
+  if (activityInterval) clearInterval(activityInterval);
+  activityInterval = null;
+  // DO NOT reset activityStart here — keep its value so showResults() can compute elapsed time.
+  // Do not reset the displayed text either; keep the last visible elapsed time.
+}
+
+/* --- countdown timer --- */
 function startTimer(sec){
   if (timerInterval) clearInterval(timerInterval);
-  if (!sec || sec <= 0){
-    timerEl.textContent='--:--';
-    return;
-  }
+  if (!sec || sec <= 0){ timerEl.textContent='--:--'; return; }
   let remaining = sec;
   timerEl.textContent = formatTime(remaining);
-
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(()=>{
     remaining--;
-    if (remaining <= 0){
-      clearInterval(timerInterval);
-      timerEl.textContent = '00:00';
-      quizEnded = true;
-      showResults();
-    } else {
-      timerEl.textContent = formatTime(remaining);
-    }
-  }, 1000);
+    if (remaining <= 0){ clearInterval(timerInterval); timerEl.textContent='00:00'; quizEnded=true; stopActivityTimer(); showResults(); }
+    else timerEl.textContent = formatTime(remaining);
+  },1000);
 }
-function formatTime(s){ const m=Math.floor(s/60); const r=s%60; return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`; }
 
-/* start quiz */
+/* --- start quiz --- */
 function startQuiz(){
   const vals = readUIValues();
   settings = {
@@ -430,24 +411,31 @@ function startQuiz(){
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
   selectsDirty = false;
 
-  // prepare questions
+  // Prepare and sample questions
   const pool = JSON.parse(JSON.stringify(questions));
   shuffle(pool);
-  currentSet = pool.slice(0, Math.min(settings.count, pool.length)).map(q=>({
+  currentSet = pool.slice(0, Math.min(settings.count, pool.length)).map(q => ({
     question: q.question,
     options: sampleOptions(q.options, q.answer, Math.min(settings.choices, q.options.length)),
     answer: q.answer
   }));
 
+  // reset state
   idx = 0; userAnswers = new Array(currentSet.length).fill(null);
-  quizEnded = false;
-  mistakesCount = 0;
+  quizEnded = false; mistakesCount = 0;
   updateMistakesDisplay();
 
+  // reset & start activity timer only once here
+  stopActivityTimer();
+  startActivityTimer();
+
+  // start countdown if enabled
   if (settings.timerEnabled && settings.time > 0) startTimer(settings.time); else startTimer(0);
+
   renderQuestion();
 }
 
+/* --- update mistakes UI --- */
 function updateMistakesDisplay(){
   if (settings && settings.mistakesEnabled){
     mistakesLeftEl.style.display = '';
@@ -458,94 +446,92 @@ function updateMistakesDisplay(){
   }
 }
 
+/* --- render question --- */
 function renderQuestion(){
-  if(!currentSet.length){ quizDiv.innerHTML='<div style="padding:18px;color:#bfe">Press Start to begin</div>'; return; }
+  if (!currentSet.length){ quizDiv.innerHTML = '<div style="padding:18px;color:#bfe">Press Start to begin</div>'; return; }
   const q = currentSet[idx];
   quizDiv.innerHTML = '';
   const qText = document.createElement('div'); qText.className='question'; qText.textContent = `${idx+1}. ${q.question}`; quizDiv.appendChild(qText);
   const optsWrap = document.createElement('div'); optsWrap.className='options';
-  q.options.forEach(opt=>{
+
+  q.options.forEach(opt => {
     const btn = document.createElement('button');
-    btn.className='answer-btn';
-    btn.type='button';
+    btn.className = 'answer-btn';
+    btn.type = 'button';
     btn.dataset.value = opt;
     btn.textContent = opt;
-    btn.addEventListener('click', ()=> handleAnswer(q, opt, btn));
+    // On click: evaluate answer but DO NOT restart activity timer
+    btn.addEventListener('click', () => handleAnswer(q, opt, btn));
     optsWrap.appendChild(btn);
   });
+
   quizDiv.appendChild(optsWrap);
   updateProgress();
 }
 
+/* --- handle answer --- */
 function handleAnswer(qObj, chosen, chosenBtn){
+  // Do not restart activity timer here — only start it at quiz start.
   const buttons = Array.from(quizDiv.querySelectorAll('.answer-btn'));
   buttons.forEach(b => b.disabled = true);
   buttons.forEach(b => {
     if (b.dataset.value === qObj.answer) b.classList.add('correct');
     if (b.dataset.value === chosen && chosen !== qObj.answer) b.classList.add('incorrect');
   });
+
   userAnswers[idx] = chosen;
 
-  // if incorrect, increment mistakes and check limit
   if (chosen !== qObj.answer){
     mistakesCount++;
-    // update UI immediately
     updateMistakesDisplay();
-
     if (settings.mistakesEnabled && mistakesCount > settings.mistakesAllowed){
-      // Exceeded allowed mistakes -> stop immediately and show results
       quizEnded = true;
-      // small delay so user sees the red flash
-      setTimeout(()=> {
-        showResults();
-      }, 420);
+      stopActivityTimer();
+      setTimeout(()=> showResults(), 420);
       return;
     }
   }
 
-  setTimeout(()=> {
+  setTimeout(()=>{
     if (quizEnded) return;
-    if (idx < currentSet.length - 1){
-      idx++; renderQuestion();
-    } else showResults();
+    if (idx < currentSet.length - 1){ idx++; renderQuestion(); }
+    else { stopActivityTimer(); showResults(); }
   }, 450);
 }
 
+/* --- progress --- */
 function updateProgress(){
-  const pct = Math.round(((idx) / (Math.max(1, currentSet.length - 1))) * 100);
+  const pct = currentSet.length>1 ? Math.round(((idx)/(Math.max(1,currentSet.length-1))) * 100) : 0;
   progressBar.style.width = `${pct}%`;
   counterEl.textContent = `Question ${idx+1} of ${currentSet.length}`;
 }
 
+/* --- results --- */
 function showResults(){
   quizEnded = true;
   if (timerInterval) clearInterval(timerInterval);
+  stopActivityTimer();
+
   quizDiv.innerHTML = '';
-  const out = document.createElement('div');
-  out.style.padding='12px';
+  const out = document.createElement('div'); out.style.padding='12px';
   out.innerHTML = '<h3 style="color:#fff;margin-top:0">Results</h3>';
   let correct = 0;
   currentSet.forEach((q,i)=>{
     const ua = userAnswers[i];
     const ok = ua === q.answer;
     if (ok) correct++;
-    const row = document.createElement('div');
-    row.style.marginBottom='10px';
+    const row = document.createElement('div'); row.style.marginBottom='10px';
     row.innerHTML = `<strong style="color:#fff">${i+1}. ${q.question}</strong><div style="margin-top:6px;color:${ok?'#ffd700':'#ff9aa2'}">Your: ${ua?ua:'—'}</div>${ok?'':`<div style="color:#ffd700">Ans: ${q.answer}</div>`}`;
     out.appendChild(row);
   });
   out.innerHTML += `<div style="margin-top:12px;color:#dff"><strong>Score: ${correct} / ${currentSet.length}</strong></div>`;
-
-  // show mistakes summary if enabled
   if (settings && settings.mistakesEnabled){
     out.innerHTML += `<div style="margin-top:8px;color:#ffb3b3"><strong>Mistakes made: ${mistakesCount} (allowed ${settings.mistakesAllowed})</strong></div>`;
   }
+  if (activityStart){ const elapsedSecs = Math.floor((Date.now() - activityStart)/1000); out.innerHTML += `<div style="margin-top:8px;color:#ffb3b3"><strong>Elapsed time: ${formatTime(elapsedSecs)}</strong></div>`; }
 
-  const retakeBtn = document.createElement('button');
-  retakeBtn.textContent = "Retake Quiz";
-  retakeBtn.style.marginTop = "16px";
-  retakeBtn.className = "small-btn";
-  retakeBtn.addEventListener("click", startQuiz);
+  const retakeBtn = document.createElement('button'); retakeBtn.textContent = 'Retake Quiz'; retakeBtn.className='small-btn'; retakeBtn.style.marginTop='12px';
+  retakeBtn.addEventListener('click', startQuiz);
   out.appendChild(retakeBtn);
 
   quizDiv.appendChild(out);
@@ -553,13 +539,11 @@ function showResults(){
   counterEl.textContent = `Done — Score ${correct}/${currentSet.length}`;
 }
 
-/* auto-start */
-window.addEventListener('load', ()=>{ applySettingsToUI(); setTimeout(()=>{ if(!selectsDirty){ startQuiz(); } },120); });
+/* --- auto-start on load --- */
+window.addEventListener('load', ()=>{ applySettingsToUI(); setTimeout(()=>{ if(!selectsDirty) startQuiz(); }, 120); });
 startBtn.addEventListener('click', startQuiz);
 
-/* ------------------------
-   Theme System (unchanged)
-   ------------------------ */
+/* --- themes (restored full set) --- */
 const THEMES = {
   "Neon Night": { "--bg1":"#291c6e","--bg2":"#00167d","--panel":"#12132a","--accent":"#2debb0" },
   "Sunset Glow": { "--bg1":"#ff7e5f","--bg2":"#feb47b","--panel":"#2e1d12","--accent":"#ffd166" },
@@ -572,37 +556,53 @@ const THEMES = {
   "Elegant Gray": { "--bg1":"#2c2c2c","--bg2":"#1a1a1a","--panel":"#111111","--accent":"#bfbfbf" }
 };
 
+/* --- theme select population & apply (patched) --- */
 const themeSelect = document.getElementById('themeSelect');
 const THEME_KEY = "quiz_theme_choice";
-
-Object.keys(THEMES).forEach(name => {
-  const opt = document.createElement("option");
-  opt.value = name;
-  opt.textContent = name;
-  themeSelect.appendChild(opt);
-});
-
-function applyTheme(name){
-  const theme = THEMES[name] || THEMES["Neon Night"];
-  Object.keys(theme).forEach(key => {
-    document.documentElement.style.setProperty(key, theme[key]);
+// populate the dropdown if the element exists
+if (themeSelect) {
+  Object.keys(THEMES).forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    themeSelect.appendChild(opt);
   });
-  document.body.style.background = `radial-gradient(circle at 10% 10%, #06104a 0%, var(--bg1) 25%, var(--bg2) 70%)`;
-  localStorage.setItem(THEME_KEY, name);
+
+  // load saved theme or default
+  let savedTheme = localStorage.getItem(THEME_KEY) || "Neon Night";
+  if (!THEMES[savedTheme]) savedTheme = "Neon Night";
+  themeSelect.value = savedTheme;
+
+  function applyTheme(name){
+    const theme = THEMES[name] || THEMES["Neon Night"];
+    Object.keys(theme).forEach(key => {
+      document.documentElement.style.setProperty(key, theme[key]);
+    });
+    document.body.style.background = `radial-gradient(circle at 10% 10%, #06104a 0%, var(--bg1) 25%, var(--bg2) 70%)`;
+    localStorage.setItem(THEME_KEY, name);
+  }
+
+  // apply initial theme and hook change event
+  applyTheme(savedTheme);
+  themeSelect.addEventListener('change', ()=>{ applyTheme(themeSelect.value); });
 }
 
-let savedTheme = localStorage.getItem(THEME_KEY) || "Neon Night";
-if (!THEMES[savedTheme]) savedTheme = "Neon Night";
-themeSelect.value = savedTheme;
-applyTheme(savedTheme);
-
-themeSelect.addEventListener("change", () => {
-  applyTheme(themeSelect.value);
-});
 </script>
 </body>
-
 </html>
 
+  
 
 
+
+
+
+
+
+
+
+
+
+
+
+              
